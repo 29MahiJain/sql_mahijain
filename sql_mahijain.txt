@@ -766,3 +766,157 @@ FROM Worker
 INNER JOIN Title ON Worker.WORKER_ID = Title.WORKER_REF_ID
 WHERE Title.WORKER_TITLE = 'Manager';
 
+
+
+
+
+
+
+
+14/2/25
+
+create database friday;
+use friday;
+show tables from friday;
+create table student(id int, name varchar(20), location varchar(20));
+insert into student values(101, 'jayanth', 'coimbatore'), (102, 'karthick', 'pune');
+select * from student;
+
+
+import java.sql.*;
+public class JDBC {
+
+	public static void main(String[] args) {
+		try{  
+			Class.forName("com.mysql.cj.jdbc.Driver");  //Register // 1
+			System.out.println("11111111");
+			
+			Connection con=DriverManager.getConnection(  
+			"jdbc:mysql://localhost:3306/friday","root","root");  
+			//here sonoo is database name, root is username and password // 2
+			
+			System.out.println("22222222");
+			
+			Statement stmt=con.createStatement();  //3
+			System.out.println("3333333333");
+			
+			ResultSet rs=stmt.executeQuery("select * from student"); //4
+			
+			while(rs.next())
+			{	
+			System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3)); 
+			}
+			
+			con.close(); //5
+			
+			}
+		catch(Exception e){
+			System.out.println("Jayanth check your program, there is a small error");
+			}
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
+15/2/25
+
+
+
+drop database saturday;
+create database saturday;
+use saturday;
+CREATE TABLE `user` (
+	`sl_no` INT(5) NULL DEFAULT NULL,
+	`name` VARCHAR(100) NULL DEFAULT NULL,
+	`email` VARCHAR(100) NULL DEFAULT NULL
+);
+select * from user;
+
+
+
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class DB_Connection {
+	
+public static void main(String[] args) {
+	
+  DB_Connection obj_DB_Connection=new DB_Connection();
+  System.out.println(obj_DB_Connection.get_connection());
+}
+public Connection get_connection(){
+ Connection connection=null;
+try {
+  Class.forName("com.mysql.cj.jdbc.Driver");              
+  connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/saturday","root", "root");
+} catch (Exception e) {
+  System.out.println(e);
+}
+  return connection;
+}
+}
+
+
+
+
+
+
+
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+public class CRUD_Test {
+
+public static void main(String[] args) {
+	CRUD_Test objTest=new CRUD_Test();
+        //insert data
+	objTest.create_data("1", "jinu", "jinu@gmail.com");
+	objTest.create_data("2", "jawad", "jawad@gmail.com");
+        //read data
+	objTest.read_data();
+}
+public void create_data(String sl_no,String name,String email){
+	DB_Connection obj_DB_Connection=new DB_Connection();
+	Connection connection=obj_DB_Connection.get_connection();
+	PreparedStatement ps=null;
+	try {
+		
+		ps=connection.prepareStatement("insert into user(sl_no,name,email) values (?,?,?)");
+		ps.setString(1, sl_no);
+		ps.setString(2, name);
+		ps.setString(3, email);
+		System.out.println(ps);
+		ps.executeUpdate();
+	} catch (Exception e) {
+		System.out.println(e);
+	}
+}
+public void read_data() {
+    DB_Connection obj_DB_Connection = new DB_Connection();
+    Connection connection = obj_DB_Connection.get_connection();
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    try {
+        ps = connection.prepareStatement("SELECT * FROM user");
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            System.out.println(rs.getInt("sl_no") + "  " + rs.getString("name") + "  " + rs.getString("email"));
+        }
+    } catch (Exception e) {
+        System.out.println(e);
+    }
+}
+}
+
+
